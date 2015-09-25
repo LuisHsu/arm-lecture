@@ -12,22 +12,24 @@ fibonacci:
 	@ ADD/MODIFY CODE BELOW
 	@ PROLOG
 	push {r3, r4, r5, lr}
+	cmp r0, #0	@ Compare RO with 0
+	beq .L3		@ if(R0 == 0), goto .L3
+	cmp r0, #1	@ Compare R0 with 1
+	beq .L4		@ if(R0 == 1), goto .L4
 
-	subs r4, r0, #0	@ R4 = R0 - 0 (update flags)
-	ble .L3			@ if(R0 <= 0) goto .L3 (which returns 0)
+	mov r3, #1	@ R3 = 1
+	mov r4, #1	@ R4 = 1
 
-	cmp r4, #1		@ Compare R4 wtih 1
-	beq .L4			@ If R4 == 1 goto .L4 (which returns 1)
-
-	sub r0, r4, #1	@ R0 = R4 - 1
-	b fibonacci		@ Jump to fibonacci with R4 - 1 as parameter
-
-	@ R5 = R0
-	@ R0 = R4 - 2
-	@ Recursive call to fibonacci with R4 - 2 as parameter
-
-	@ R0 = R5 + R0 (update flags)
-
+loop:			@ loop label for iterative
+	cmp r0, #2	@ Compare R0 with 2
+	ble break	@ if(R0 <=2), break loop
+	add r5, r3, r4	@ R5 = R3 + R4
+	mov r3, r4	@ R3 = R4
+	mov r4, r5	@ R4 = R5
+	sub r0, #1	@ R0 = R0 - 1
+	b	loop	@ goto loop 
+break:			@ label for break
+	mov r0, r5	@ return R5
 	pop {r3, r4, r5, pc}		@EPILOG
 
 	@ END CODE MODIFICATION
