@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-extern int fibonacci(int x);
+extern int fibonacci(int term, int val, int prev);
 
 int main(int argc, char **argv)
 {
