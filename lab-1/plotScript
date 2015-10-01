@@ -1,0 +1,5 @@
+cd '.'
+plot 'clock' with linespoint
+set terminal png
+set output 'output.png'
+replot
